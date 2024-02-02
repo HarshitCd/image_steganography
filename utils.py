@@ -1,6 +1,4 @@
 import cv2
-import numpy as np
-from PIL import Image
 
 
 def get_bytes_array(message: str) -> bytearray:
@@ -23,6 +21,8 @@ def process_img_data(message: str, img_data):
                     if img_data[i, j][id] % 2 != 0:
                         img_data[i, j][id] += 1
 
+                img_data[i, j] = img_data[i, j] % 256
+
     return img_data
 
 
@@ -38,7 +38,7 @@ def decode_img(img_data) -> list:
 
 
 def create_image(out_path: str, img_data):
-    pass
+    cv2.imwrite(out_path, img_data)
 
 
 def load_image(path: str):
@@ -71,18 +71,7 @@ def decoding(data: list) -> bytearray:
 
 
 def main():
-    img_path = "/Users/harshitcd/Downloads/tmp.png"
-    img = load_image(path=img_path)
-
-    steg_img = process_img_data(message="Hello World", img_data=img)
-    width, height, _ = steg_img.shape
-
-    a = np.array(steg_img)
-
-    img = Image.new("RGB", (width, height))
-    img.putdata(steg_img)
-    img.save("image.png")
-    print(decoding(decode_img(steg_img)).decode(encoding="utf-8"))
+    pass
 
 
 if __name__ == "__main__":
